@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/png" href="image/file.png">
+    <title>Data Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script src="js/main.js"></script>
+    <style>
+        .box {
+            width: 128px;
+            height: 128px;
+            padding: 10px;
+            margin: 10px 10px;
+            display: block;
+            float: left;
+            color: #000000;
+            background-image: url('image/file.png');
+            background-size: cover;
+            /* background-color: #377148;
+            border: 1px solid black;
+            border-top-left-radius: 10px; 
+            box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.63);*/
+            text-align: center;
+            z-index: 10;
+        }
+
+        .box p {
+            margin-top: 118px;
+            /* box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.63);
+            border: 1px solid black;
+            background-color: #c6c6c6; */
+        }
+
+        .overlay {
+            position: fixed; 
+            left: 0;
+            top: 0;
+            display: flex;
+            justify-content: center;   
+            width: 100%;
+            height: 0;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0, 0.75);
+            overflow-x: hidden;
+            transition: 0.5s;
+            z-index: 100;
+        }
+
+        .overlay div {
+            color: white;
+            margin-top: 30%;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <div>Please wait while system is generating files ... </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <br>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Data Generator</h1>
+            </div>
+            <div class="col-md-12">
+                <form action="#" id="datagenerator">
+                    <div class="form-group row">
+                        <label for="fileName" class="col-sm-2 col-form-label">File Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="fileName" placeholder="Enter File Name Here" required="required">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="maxSize" class="col-sm-2 col-form-label">Number of Data</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control update-size" id="maxSize" placeholder="Number of Variation Required" min="1" max="1000000" required="required">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                            <label for="maxSizeperFile" class="col-sm-2 col-form-label"># of Data per File</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control update-size" id="maxSizeperFile" placeholder="Number of Data in Single File" min="1" max="1000000" required="required">
+                            </div>
+                        </div>
+                    <div class="form-group row">
+                        <label for="sizeMin" class="col-sm-2 col-form-label">Size</label>
+                        <div class="col-sm-5">
+                            <input type="number" class="form-control update-size" id="sizeMin" placeholder="Min Length" min="1" max="100" required="required">
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="number" class="form-control update-size" id="sizeMax" placeholder="Max Length" min="1" max="100" required="required">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                            <label class="checkbox-inline"><input type="checkbox" id="chkCap" checked> Capital (A-Z)</label>
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="checkbox-inline"><input type="checkbox" id="chkSml" checked> Small (a-z)</label>
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="checkbox-inline"><input type="checkbox" id="chkNum" checked> Numbers (0-9)</label>
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="custom" placeholder="Custom">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-2">
+                            &nbsp;
+                        </div>
+                        <div class="col-sm-10">
+                            <p class="fileSizeEstimation text-info"></p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-primary">Generate</span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-12" style="min-height: 16px;">
+                <div class="progress d-none">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar" style="width:0%">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div id="result">
+                </div>
+            </div>
+        </div>
+    </div>    
+</body>
+</html>
