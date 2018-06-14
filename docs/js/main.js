@@ -6,7 +6,12 @@ var Pool = "";
 
 $(document).ready(function(){
     console.log("Ready");
+
+    $('#fileName').val(generateFileName());
+
     $( "#datagenerator" ).submit(function( event ) {
+        $('#result').html("");
+
         let isCap = $('#chkCap').is(":checked");
         let isSml = $('#chkSml').is(":checked");
         let isNum = $('#chkNum').is(":checked");
@@ -45,6 +50,15 @@ $(document).ready(function(){
         }
         
         return false;
+    });
+
+    $('button[type="reset"]').on('click', function(){
+        $('#result').html("");
+        $('.progress').addClass('d-none');
+        $('.progress-bar').width('0%');
+        setTimeout(()=>{
+            $('#fileName').val(generateFileName());
+        },10);
     });
 
     $('#maxSize').on('keypress', function(){
@@ -112,7 +126,7 @@ async function generateData(total, min, max, fileName){
     csvData = new Blob([csvContent], { type: 'text/csv' }); 
     let csvUrl = URL.createObjectURL(csvData);
     let link = document.createElement("a");
-    $(link).attr("href", csvUrl).attr("download",fileName).addClass("box").html("<p>"+fileName+"</p>");
+    $(link).attr("href", csvUrl).attr("download",fileName).addClass("box").html("<p>"+fileName+" (" + roundDigit(csvData.size, 2) + ")</p>");
     $('#result').append(link);
 
     
@@ -130,4 +144,9 @@ function getRandomNumberBetween(min, max){
     size = Math.max(size,min);
     size = Math.min(size,max);
     return size;
+}
+
+function generateFileName(){
+    var d = new Date();
+    return `Data_${d.getDate()}_${d.getMonth()+1}_${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
 }
