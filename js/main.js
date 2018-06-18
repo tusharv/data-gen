@@ -3,6 +3,7 @@ const SML = CAP.toLowerCase();
 const NUM = "1234567890";
 const MAX_ROW_PER_FILE = 1000000;
 var Pool = "";
+var zip;
 
 $(document).ready(function(){
     console.log("Ready");
@@ -11,6 +12,8 @@ $(document).ready(function(){
 
     $( "#datagenerator" ).submit(function( event ) {
         $('#result').html("");
+
+        zip = new JSZip();
 
         let isCap = $('#chkCap').is(":checked");
         let isSml = $('#chkSml').is(":checked");
@@ -43,6 +46,7 @@ $(document).ready(function(){
                 }while(total>0);
                 setTimeout(()=>{
                     $('.overlay').height('0');
+                    generateZip(fileName);
                 },100);
             },600)
         }else{
@@ -124,12 +128,13 @@ async function generateData(total, min, max, fileName){
     }
 
     csvData = new Blob([csvContent], { type: 'text/csv' }); 
+    zip.file(fileName, csvData);
     let csvUrl = URL.createObjectURL(csvData);
     let link = document.createElement("a");
+    
     $(link).attr("href", csvUrl).attr("download",fileName).addClass("box").html("<p>"+fileName+" (" + roundDigit(csvData.size, 2) + ")</p>");
     $('#result').append(link);
 
-    
     let endtime = new Date();
     console.log("Process with "+total+" data took", endtime - starttime);
 
@@ -149,4 +154,15 @@ function getRandomNumberBetween(min, max){
 function generateFileName(){
     var d = new Date();
     return `Data_${d.getDate()}_${d.getMonth()+1}_${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+}
+
+function generateZip(fileName){
+    let linkZip = document.createElement("a");
+        zip.generateAsync({type:"blob"})
+        .then(function(content)
+        {
+            let linkZip = document.createElement("a");
+            $(linkZip).attr("href", URL.createObjectURL(content)).attr("download",fileName.replace(".csv",".zip")).addClass("box zip").html("<p>"+fileName.replace(".csv",".zip")+"</p>");
+            $('#result').append(linkZip);
+        });
 }
