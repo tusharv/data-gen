@@ -2,7 +2,10 @@
 
 Data Generator is simple utility to generate random string between specific range and save it as **.csv** or **.zip**
 
-It is hosted at https://tusharmd.github.io/data-gen/index.html
+It is hosted at 
+* https://tusharmd.github.io/data-gen/index.html
+* https://tusharv.github.io/data-gen/
+* http://tusharv.in/data/
 
 ## Configuration Options
 
@@ -16,7 +19,7 @@ It is hosted at https://tusharmd.github.io/data-gen/index.html
 | Capital (A-Z) | Inclute Capital Letters | A-Z |
 | Small (a-z) | Inclute Small Letters | a-z |
 | Numbers (0-9) | Include Numbers | 0-9 |
-| Custom | To add custom Symbols | |
+| Custom | To add custom Symbols | Any Symbol or Unicode Character |
 
 ## Library Used
 
